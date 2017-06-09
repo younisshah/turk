@@ -1,0 +1,3 @@
+package: github.com/younisshah/turk
+import:
+- package: github.com/sethgrid/pester
