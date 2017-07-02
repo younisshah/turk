@@ -1,7 +1,7 @@
 ## turk
 
 A super simple GraphQL client. 
-Retries if your GraphQL server isn't responding with exponential jitter backoff startegy.     
+Retries if your GraphQL server isn't responding with exponential jitter backoff strategy.     
  
  
  Sample Usage:
