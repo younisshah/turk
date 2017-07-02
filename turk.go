@@ -28,9 +28,21 @@ type Props map[string]interface{}
 func (g GraphQL) Build() string {
 	q := g.Statement
 	for k, v := range g.Parameters {
-		switch reflect.TypeOf(k).String() {
-		case "int", "int32", "int64", "bool", "float64", "float32":
-			q = strings.Replace(q, "{"+k+"}", v.(string), -1)
+		t := reflect.TypeOf(v).String()
+		if t == "int32" {
+			panic("int32 isn't supported. Please use int64. Use int64(x)")
+		} else if t == "int" {
+			panic("int isn't supported. Please use int64. Use int64(x)")
+		} else if t == "float32" {
+			panic("float32 isn't supported. Please use float64. Use float64(x.y)")
+		}
+		switch t {
+		case "int64":
+			q = strings.Replace(q, "{"+k+"}", strconv.FormatInt(v.(int64), 10), -1)
+		case "float64":
+			q = strings.Replace(q, "{"+k+"}", strconv.FormatFloat(v.(float64), 'f', 6, 64), -1)
+		case "bool":
+			q = strings.Replace(q, "{"+k+"}", strconv.FormatBool(v.(bool)), -1)
 		case "string":
 			q = strings.Replace(q, "{"+k+"}", `"`+v.(string)+`"`, -1)
 		default:
